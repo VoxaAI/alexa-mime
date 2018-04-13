@@ -3,7 +3,7 @@
 const yaml = require('js-yaml');
 const _ = require('lodash');
 const path = require('path');
-const config = require('../config');
+// const config = require('../config');
 const alexaTest = require('alexa-skill-test-framework');
 const assertView = require('./assertion-helpers').assertView;
 const fs = require('fs-extra');
@@ -87,12 +87,12 @@ module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper)
 
     const variablesToRender = _.chain(globalVariable)
                               .assign(_.get(intentOptions, 'alexaVariable', {}))
-                              .toPairs()
-                              .map((variable) => {
-                                const compiled = _.template(variable[1]);
-                                return [variable[0], compiled({ config })];
-                              })
-                              .fromPairs()
+                              // .toPairs()
+                              // .map((variable) => {
+                              //   const compiled = _.template(variable[1]);
+                              //   return [variable[0], compiled({ config })];
+                              // })
+                              // .fromPairs()
                               .value();
 
     const shouldEndSession = !!_.get(intentOptions, 'shouldEndSession');
