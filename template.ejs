@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Alexa Skill Flow Report</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div >
+    <div>
+      <div style="background: rebeccapurple; margin-bottom: 1.45rem;">
+        <div style="margin: 0px auto; max-width: 960px; padding: 1.45rem 1.0875rem;">
+          <h1 style="margin: 0px;"><a href="/" style="color: white; text-decoration: none;">Alexa Skill</a></h1></div>
+      </div>
+      <div style="margin: 0px auto; padding: 0px 1.0875rem 1.45rem;">
+        <div>
+          <h1>Uses cases</h1>
+          <% useCases.forEach(function(useCase){ %>
+            <h2><%= useCase.useCase %>
+              <% if (useCase.status) { %>
+              <span class="badge badge-success">Passed</span>
+            <% } else { %>
+              <span class="badge badge-danger">Failed</span>
+            <% } %></h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">user</th>
+                  <th scope="col">alexa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% useCase.flow.forEach(function(request){ %>
+                  <tr>
+                    <th scope="row"><%= request.intentName %></th>
+                    <td>
+                      <div class="row">
+                      <% if (request.expected) { %>
+                        <div class="col">
+                          <div class="alert alert-danger" role="alert">
+                            Actual: <%= request.speech %>
+                          </div>
+                          <div class="alert alert-success" role="alert">
+                            expected: <%= request.expected %>
+                          </div>
+                        </div>
+                      <% } else { %>
+                          <div class="col"> <%= request.speech %></div>
+                      <% } %>
+                      <% if (request.card) { %>
+
+                        <% if (request.card.type === 'LinkAccount') { %>
+                          <div class="col">
+                            <div class="card" style="width: 32rem;">
+                              <div class="card-body">
+                                <h5 class="card-title">Skill Name - Account Setup</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Skill Name</h6>
+                                <p class="card-text">To get the most out of this skill please link your account</p>
+                                <a href="#" class="card-link">LINK ACCOUNT</a>
+                              </div>
+                            </div>
+                          </div>
+                        <% } %>
+
+                        <% if (request.card.type === 'Simple') { %>
+                          <div class="col">
+                            <div class="card" style="width: 32rem;">
+                              <div class="card-body">
+                                <h5 class="card-title"><%= request.card.title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Skill Name</h6>
+                                <p class="card-text"><%= request.card.content %></p>
+                              </div>
+                            </div>
+                          </div>
+                        <% } %>
+
+                        <% if (request.card.type === 'Standard') { %>
+                          <div class="col">
+                            <div class="card" style="width: 32rem;">
+                              <img class="card-img-top" src="<%= request.card.image.largeImageUrl %>" alt="Card image cap">
+                              <div class="card-body">
+                                <p class="card-text"><%= request.card.text %></p>
+                              </div>
+                            </div>
+                            </div>
+
+                        <% } %>
+
+                      <% } %>
+
+
+                      <% if (request.show) { %>
+
+                        <% if (request.show.type === 'BodyTemplate1') { %>
+                          <div class="col">
+                            <div class="card bg-dark text-white" style="width: 32rem;">
+                              <img class="card-img" src="<%= request.show.backgroundImage.sources[0].url %>" alt="Card image">
+                              <div class="card-img-overlay">
+                                <h5 class="card-title"><%= request.show.title %></h5>
+                                <p class="card-text"><% if (request.show.textContent && request.show.textContent.primaryText && request.show.textContent.primaryText.text) { %> <%= request.show.textContent.primaryText.text %>   <% } %></p>
+                                <p class="card-text"><% if (request.show.textContent && request.show.textContent.secondaryText && request.show.textContent.secondaryText.text) { %> <%= request.show.textContent.secondaryText.text %> <% } %></p>
+                                <p class="card-text"><% if (request.show.textContent && request.show.textContent.tertiaryText && request.show.textContent.tertiaryText.text) { %> <%= request.show.textContent.tertiaryText.text %> <% } %></p>
+                              </div>
+                            </div>
+                          </div>
+                        <% } %>
+                        </div>
+                      <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/commons.js"></script>
+</body>
+
+</html>

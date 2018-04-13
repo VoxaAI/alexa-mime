@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">user</th>
+      <th scope="col">alexa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% useCase.flow.forEach(function(request){ %>
+      <tr>
+        <td><%= request.intentName %></td>
+        <td>
+          <% if (request.expected) { %>
+            <div>
+              <div className="alert alert-danger" role="alert">
+                Actual: <%= request.speech %>
+              </div>
+              <div className="alert alert-success" role="alert">
+                expected: <%= request.expected %>
+              </div>
+            </div>
+          <% } else { %>
+              <%= request.speech %>
+          <% } %>
+        </td>
+      </tr>
+    <% }); %>
+  </tbody>
+</table>
