@@ -13,13 +13,19 @@ function assertView(views, expectedView, variables, forceResponseType) {
     return _(responseTypes)
     .map(key => viewObject[key])
     .filter()
-    .map(view => view.replace(/\{(\w+)\}/g, (m, offset) => {
-      if (variables && !_.isUndefined(variables[offset])) {
-        return variables[offset];
+    .map((view) => {
+      if (_.isArray(view)) {
+        view = _.head(view);
       }
 
-      throw new Error(`Variable ${offset} missing`);
-    }))
+      return view.replace(/\{(\w+)\}/g, (m, offset) => {
+        if (variables && !_.isUndefined(variables[offset])) {
+          return variables[offset];
+        }
+
+        throw new Error(`Variable ${offset} missing`);
+      });
+    })
     .first();
   }
   let expectedReply;
