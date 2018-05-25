@@ -74,13 +74,32 @@ module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper)
     });
   }
 
+  function getRequest(intentName, slots, describeWrapper) {
+    let customRequest = _.get(describeWrapper, 'customRequest', {});
+    customRequest = _.clone(customRequest);
+
+    const customRequestIntent = _.get(customRequest, intentName);
+    if (intentName === 'launchRequest') {
+      return alexaTest.getLaunchRequest();
+    }
+
+    if (intentName === 'sessionEndedRequest') {
+      return alexaTest.getSessionEndedRequest();
+    }
+
+    if (customRequestIntent) {
+      return customRequestIntent;
+    }
+
+    return alexaTest.getIntentRequest(intentName, _.clone(slots));
+  }
 
   function testIntentFlow(intent, flowStorage) {
     _.templateSettings.interpolate = /{([\s\S]+?)}/g;
     const IntentRequest = {};
     const intentName = _.keys(intent)[0];
     const intentOptions = intent[intentName];
-    if (!(_.includes(intentName, 'Intent') || intentName === 'launchRequest')) return null;
+    if (_.includes(['beforeEach', 'afterEach'], intentName)) return null;
     const slots = _.get(intentOptions, 'slots');
     let globalVariable = _.get(describeWrapper, 'globalVariable', {});
     globalVariable = _.clone(globalVariable);
@@ -103,7 +122,8 @@ module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper)
                           .compact()
                           .value();
 
-    IntentRequest.request = intentName === 'launchRequest' ? alexaTest.getLaunchRequest() : alexaTest.getIntentRequest(intentName, _.clone(slots));
+    IntentRequest.request = getRequest(intentName, slots, describeWrapper);
+
     _.set(IntentRequest, 'request.context.System.device.supportedInterfaces.Display', { templateVersion: '1', markupVersion: '1' });
     IntentRequest.shouldEndSession = shouldEndSession;
     const item = { intentName };
