@@ -145,7 +145,7 @@ module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper)
         .value();
       const viewToExpect = assertView(views, alexaResponse, variablesToRender);
 
-      if (alexaResponse) {
+      if (!_.isEmpty(alexaResponse)) {
         status = viewToExpect === speech;
       }
 
