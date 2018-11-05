@@ -9,11 +9,11 @@ const assertView = require('./assertion-helpers').assertView;
 const fs = require('fs-extra');
 const ejs = require('ejs');
 
-// Default locale used by alexa skill test framework
-let skillLocale = 'en-US';
+
 
 module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper, locale) => {
-  if (locale) skillLocale = locale;
+  // Default values
+  locale = locale || 'en-US';
 
   alexaTest.initialize(skill, 'amzn1.ask.skill.00000000-0000-0000-0000-000000000000', 'amzn1.ask.account.VOID');
   alexaTest.setExtraFeature('questionMarkCheck', false);
