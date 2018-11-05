@@ -9,8 +9,6 @@ const assertView = require('./assertion-helpers').assertView;
 const fs = require('fs-extra');
 const ejs = require('ejs');
 
-
-
 module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper, locale) => {
   // Default values
   locale = locale || 'en-US';
