@@ -9,9 +9,11 @@ const assertView = require('./assertion-helpers').assertView;
 const fs = require('fs-extra');
 const ejs = require('ejs');
 
-module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper) => {
+module.exports = (skill, views, locale, pathToYAMLTest, pathToSaveHTML, describeWrapper) => {
   alexaTest.initialize(skill, 'amzn1.ask.skill.00000000-0000-0000-0000-000000000000', 'amzn1.ask.account.VOID');
   alexaTest.setExtraFeature('questionMarkCheck', false);
+  alexaTest.setLocale(locale);
+
   const allFlow = [];
   _.chain(fs.readdirSync(pathToYAMLTest))
     .filter(file => _.includes(file, '.yml'))
