@@ -146,6 +146,6 @@ User launches the skill as an expert, receives welcome message, invokes BookCarI
 * **afterEach**: You define this in your `describeWrapper` and runs after each test case
 * **intent**: The name of the intent you want your test case to cover. Note that multiple intents can be tested in the same use case
   * **slots**: Name and value of any slot that your intent expects. You can specify multiple slots, one slot per line
-  * **alexaVariable**: Name and value of the variable that your view (`alexaResponse`) uses. You can specify multiple variables, one slot per line
+  * **alexaVariable**: Name and value of the variable that your view (`alexaResponse`) uses. You can specify multiple variables, one variable per line
   * **alexaResponse**: Name/Path of the actual view/response your test case expects for this request or use case. You can specify multiple views/responses, in the same line separated by comma
   * **shouldEndSession**: Boolean value specifying if session is closed after the test case runs
