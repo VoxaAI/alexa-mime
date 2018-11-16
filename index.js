@@ -43,8 +43,11 @@ module.exports = (skill, views, pathToYAMLTest, pathToSaveHTML, describeWrapper,
         const beforeEachStatement = _.chain(value).find(intent => _.keys(intent)[0] === 'beforeEach').value();
         if (beforeEachStatement) {
           const intentName = _.keys(beforeEachStatement)[0];
-          const intentOptions = beforeEachStatement[intentName];
-          describeWrapper[intentOptions]();
+          const intentOptions = _.chain(beforeEachStatement[intentName])
+            .split(',')
+            .map(option => _.trim(option))
+            .value();
+          _.each(intentOptions, option => describeWrapper[option]());
         }
       });
 
